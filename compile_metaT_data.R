@@ -11,6 +11,7 @@ samples <- c("sample_01","sample_02","sample_03","sample_04","sample_05",
              "sample_07","sample_08","sample_09","sample_10","sample_11","sample_12",
              "wc1_1", "wc1_2", "wc2_1", "wc2_2") #sample 06 - NetTrap at 175m rep 3 failed so no file
 
+# read and compile salmon outputs ({SAMPLE}.sf)
 full <- NULL
 for(sample in samples){
   df <- read.delim(paste(sample,"sf",sep="."),header=TRUE)
