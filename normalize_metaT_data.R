@@ -8,8 +8,6 @@ library(tidyr)
 library(dplyr)
 library(reshape2)
 
-setwd("~/Desktop/Caron_lab_research/SCOPE/PARAGON-I/manuscript/analyses/compiled_data/")
-
 #read the full data (counts+tax+function)
 df <- read.csv("metaT_net_wc_wide.csv")
 #df <- metaT_wide
