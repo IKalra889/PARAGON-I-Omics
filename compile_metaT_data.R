@@ -1,5 +1,5 @@
 ### PARAGON-I NetTrap metaT compilation ###
-### Salmon, Eggnog and taxonomy ###
+### Salmon counts, Eggnog annotations and EukZoo taxonomy ###
 ### By: Isha Kalra ###
 ### Last updated: 02/10/2026 ###
 
