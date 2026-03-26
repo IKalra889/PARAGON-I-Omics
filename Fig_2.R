@@ -11,8 +11,6 @@ library(ggplot2)
 library(patchwork)
 library(randomcoloR)
 
-setwd("~/Desktop/Caron_lab_research/SCOPE/PARAGON-I/manuscript/analyses/compiled_data/")
-
 ## ------------------------------------------------------------------------- ##
 ## ---------------------------- Fig 2A ------------------------------------- ##
 ## Daily-PITs & WaterColumn taxa plots
