@@ -7,11 +7,6 @@ library(tidyverse)
 library(ggplot2)
 library(maps)
 
-library(ggspatial)
-library(ggforce)
-library(rerddap)
-library(terra)
-
 ## download Hawaii map data
 hi_map <- map_data("world", region = "USA") %>%
   filter(subregion == "Hawaii")
