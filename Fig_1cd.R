@@ -2,7 +2,7 @@
 ### 18S rRNA diversity analyses ###
 ### Daily-PITS, Net-trap and Water-column samples ###
 ### By: Isha Kalra ###
-### Last Updated: 03/11/2026 ###
+### Last Updated: 07/21/2026 ###
 
 library(tidyverse)
 library(ggplot2)
@@ -59,13 +59,6 @@ protist$tidy_dataset()
 protist$tax_table <- subset(protist$tax_table, Subdivision != "Fungi")
 protist$tidy_dataset() #7515 ASVs
 
-## Venn Diagram - differentiated by collection type
-tmp <- protist$merge_samples("SampleType")
-# tmp is a new microtable object
-# create trans_venn object
-t1 <- trans_venn$new(tmp)
-t1$plot_venn()
-
 ### --------------------------------------- Figure 1c - Ordination Plots -------------------------------------- ###
 
 # first normalize data using total sum scaling
@@ -80,19 +73,19 @@ t1 <- trans_beta$new(dataset = protist.tss, group = "Group", measure = "bray")
 # NMDS calculation
 t1$cal_ordination(method = "NMDS")
 
-# plot the PCoA result with confidence ellipse
-protist.nmds <- t1$plot_ordination(plot_color = "SampleType",plot_shape = "Depth",
+# plot NMDS with stress value
+fig_1c <- t1$plot_ordination(plot_color = "SampleType",plot_shape = "Depth",
                                    plot_type = c("point", "ellipse"))
-protist.nmds
 
 ### ---------------------------------------- Figure 1d - Shannon Diversity --------------------------------------- ###
 t2 <- trans_alpha$new(dataset = protist.tss, group = "Depth", by_group = "SampleType")
 # return t1$data_stat
 head(t2$data_stat)
 
+# plot Shannon diversity
+fig_1d <- t2$plot_alpha(measure = "Shannon", add_sig=FALSE, add = "jitter", order_x_mean = TRUE)
+
+# calculate significant differences between sample types
 t3 <- trans_alpha$new(dataset = protist.tss, group = "SampleType")
-# return t1$data_stat
 head(t3$data_stat)
 t3$cal_diff(method = "KW_dunn")
-
-t2$plot_alpha(measure = "Shannon", add_sig=FALSE, add = "jitter", order_x_mean = TRUE)
