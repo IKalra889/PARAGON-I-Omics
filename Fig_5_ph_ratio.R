@@ -1,6 +1,6 @@
 ### Fig 5 ###
-### Phototrophy:Heterotrophy ratios ###
-### Deseq of KOs ###
+### Phototrophy:Heterotrophy ratios for protistan metabolism on sinking particles vs water column ###
+### Differential expression analyses of functional orthologs  ###
 ### Daily PIT, NetTraps and WaterColumn ###
 ### By: Isha Kalra ###
 ### Last Updated: 07/21/2026 ###
