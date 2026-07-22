@@ -102,7 +102,7 @@ dfMelt_dpit$variable <- factor(dfMelt_dpit$variable,
                                         "Daily PIT day8","Daily PIT day9","Daily PIT day10", "WaterColumn day1","WaterColumn day5"))
 
 ## taxa bar plot
-dpit_tax <- ggplot(dfMelt_dpit, aes(x=variable, y=total_rel, fill=tax))+
+fig_2a <- ggplot(dfMelt_dpit, aes(x=variable, y=total_rel, fill=tax))+
   geom_bar(colour = "black", stat="identity", position="fill")+
   labs(title="", x="",y="% relative transcript abundance")+
   theme(legend.title=element_blank(),legend.position="top",legend.text.align=0, 
@@ -193,7 +193,7 @@ dfMelt_net$variable <- factor(dfMelt_net$variable,
                               labels=c("NetTrap 150m", "NetTrap 175m", "NetTrap 200m", "NetTrap 300m", "WaterColumn 150m"))
 
 # plot
-net_tax <- ggplot(dfMelt_net, aes(x=variable, y=total_rel, fill=tax))+
+fig_2b <- ggplot(dfMelt_net, aes(x=variable, y=total_rel, fill=tax))+
   geom_bar(colour = "black", stat="identity", position="fill")+
   labs(title="", x="",y="% relative transcript abundance")+
   theme(legend.title=element_blank(),legend.position="top",legend.text.align=0, 
@@ -209,14 +209,84 @@ net_tax <- ggplot(dfMelt_net, aes(x=variable, y=total_rel, fill=tax))+
   labs(title="") + 
   geom_vline(xintercept = 4.5, linetype = "dashed", color = "black")
 
-## -------------------------------------------------------------------------------------------------- ##
-
 ##plot both taxa plots
-(dpit_tax+net_tax)+
-  plot_layout(guides = "collect")+
-  plot_annotation(tag_levels = "A") & 
-  theme(plot.tag = element_text(face = "bold", size = 14))
 
-#save figure
-ggsave("Fig_2.pdf", width = 6.0, height = 8.0, units = "in", dpi = 600)
+(fig_2a + fig_2b) +
+  plot_layout(guides = "collect") +
+  plot_annotation(tag_levels = "a") & 
+  theme(legend.position = "bottom",
+        plot.tag = element_text(face = "bold", size = 14))
+
+ggsave("fig2ab.pdf", width = 8.0, height = 6.0, units = "in", dpi = 600)
+
+## ------------------------------------------------------------------------- ##
+### --------- Figures 2C-E - Log plots of differentially regulated genera --------------###
+
+# read deseq data
+tax_deseq_dpit_df <-  read.csv("deseq_dpit_vs_water_genera.csv")
+tax_deseq_net200_df <- read.csv("deseq_net200_vs150_genus.csv")
+tax_deseq_net300_df <- read.csv("deseq_net300_vs150_genus.csv")
+
+## function for plotting volcano plot
+plot_volcano <- function(data, xlab = "log2 Fold Change", ylab = "-log10 Adjusted P-value",
+                         n_labels = 5, up_color = "firebrick",down_color = "steelblue",
+                         ns_color = "grey80") {
+  
+  plot_data <- data %>%
+    dplyr::filter(!is.na(padj)) %>%
+    dplyr::mutate(
+      rank_up = dplyr::min_rank(dplyr::desc(log2FoldChange)),
+      rank_down = dplyr::min_rank(log2FoldChange),
+      label_genus = dplyr::if_else(
+        rank_up <= n_labels | rank_down <= n_labels,
+        as.character(Genus),
+        ""
+      ),
+      status = dplyr::case_when(
+        padj < 0.05 & log2FoldChange > 0 ~ "Up-regulated",
+        padj < 0.05 & log2FoldChange < 0 ~ "Down-regulated",
+        TRUE ~ "Not Significant"
+      )
+    )
+  
+  ggplot(plot_data, aes(x = log2FoldChange, y = -log10(padj))) +
+    geom_point(aes(color = status), alpha = 0.6) +
+    ggrepel::geom_text_repel(
+      aes(label = label_genus),
+      size = 2.5,
+      max.overlaps = 20,
+      box.padding = 0.6,
+      segment.curvature = -0.1,
+      segment.color = "grey30"
+    ) +
+    scale_color_manual(
+      values = c(
+        "Down-regulated" = down_color,
+        "Up-regulated" = up_color,
+        "Not Significant" = ns_color
+      )
+    ) +
+    theme_bw() +
+    labs(
+      x = xlab,
+      y = ylab,
+      color = NULL
+    )
+}
+
+fig_2c <- plot_volcano(tax_deseq_dpit_df,
+                       xlab = "log2 Fold Change (Daily PITs vs WaterColumn)")
+
+fig_2d <- plot_volcano(tax_deseq_net200_df,
+  xlab = "log2 Fold Change (NetTrap 200m vs 150m)")
+
+fig_2e <- plot_volcano(tax_deseq_net300_df,
+                       xlab = "log2 Fold Change (NetTrap 300m vs 150m)")
+
+# arrange the plots
+(fig_2c + (fig_2d/fig_2e))+
+  plot_layout(guides = "collect") +
+  plot_annotation(tag_levels = list(c("c","d","e"))) & 
+  theme(legend.position = "bottom",
+        plot.tag = element_text(face = "bold", size = 14))
 
