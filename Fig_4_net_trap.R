@@ -1,7 +1,7 @@
 ### PARAGON-I NetTrap plots - Figure 4 ###
 ### Ordination, Heat map and bubble plot###
 ### By: Isha Kalra ###
-### Last updated: 02/24/2026 ###
+### Last updated: 07/21/2026 ###
 
 library(tidyverse)
 library(reshape2)
@@ -77,7 +77,7 @@ colz$depth <- factor(colz$depth, levels=c("150","175","200","300"),
 pca.plot$collection <- colz$collection
 pca.plot$depth <- colz$depth
 
-ggplot(pca.plot,aes(PC1,PC2,shape = collection, fill=depth))+
+fig_4a <- ggplot(pca.plot,aes(PC1,PC2,shape = collection, fill=depth))+
   geom_point(size = 6, aes(color=depth))+
   scale_shape_manual(values = c(21, 22, 23, 24, 25))+
   labs(title = "", x="PC1: 38.91% variance", y="PC2: 11.77% variance",
@@ -133,19 +133,12 @@ sum_cpm_wko <- sum_cpm_wko %>% filter(!Pathway %in% rm)
 rownames(sum_cpm_wko) <- sum_cpm_wko$Pathway
 sum_cpm_wko <- sum_cpm_wko %>% select(-Pathway)
 df_m <- as.matrix(sum_cpm_wko)
-df_m_2 <- df_m[,c(1,3,4)]
+
 #p-heatmap
 library(colorspace)
 colors <- diverging_hcl(100, palette = "Blue-Red 3")
 pheatmap(df_m, scale = "row", cluster_cols = FALSE,cluster_rows = TRUE, cellwidth=20, 
          cellheight = 14, angle_col = 45, color = colorRampPalette(c("navy", "white", "firebrick3"))(100))
-
-pheatmap(df_m_2, scale = "row", cluster_cols = FALSE,cluster_rows = TRUE, cellwidth=18, 
-         cellheight = 14, angle_col = 45, color = colorRampPalette(c("navy", "white", "firebrick3"))(100))
-
-pheatmap(df_m, scale = "column", cluster_cols = FALSE,cluster_rows = TRUE, cellwidth=14, 
-         cellheight = 14, angle_col = 45, color = colorRampPalette(c("navy", "white", "firebrick3"))(100))
-
 
 #save figure
 ggsave("Fig_4b.pdf", width = 6.0, height = 8.0, units = "in", dpi = 600)
@@ -297,7 +290,7 @@ names(pathway_color) <- c("Photosynthesis", "Carbon fixation", "C metabolism",
                           "Energy Acquisition", "Nitrogen metabolism", "Phagotrophy")
 
 # plot the combined bubble plot
-bubble %>%
+fig_4c <- bubble %>%
   ggplot(aes(x=Sample, y=Metabolism_2, fill=Metabolism_2, size=total_cpm))+
   geom_point(shape = 21, color = "black") +
   scale_size(range = c(1, 10)) +  # adjust point size range
