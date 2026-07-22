@@ -1,6 +1,6 @@
 # PARAGON-I-Omics
 
-Code associated with metaT + 18S rRNA analyses of sinking particles collected during PARAGON-I cruise (2021) near station ALOHA in North Pacific Subtropical Gre.
+Code associated with metaT + 18S rRNA analyses of sinking particles collected during PARAGON-I cruise (2021) near station ALOHA in the North Pacific Subtropical Gyre.
 
 The goal of the study was to evaluate changes in protistan community diversity and metabolism on sinking particulate matter following a summer diatom bloom in the NPSG.
 
