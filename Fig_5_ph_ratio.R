@@ -9,8 +9,6 @@ library(tidyverse)
 library(reshape2)
 library(ggpubr)
 
-setwd("~/Desktop/Caron_lab_research/SCOPE/PARAGON-I/manuscript/analyses/compiled_data/")
-
 ###Daily-PITs####
 #read the full normalized data (counts+tax+function) -no metazoa
 df <- read.csv("metaT_dpit_wc_normalized_filtered.csv") #277486 rows
@@ -322,7 +320,7 @@ ggsave("fig5abcd.pdf", width = 4.0, height = 8.0, units = "in")
 
 ## -------------- Volcano plots - Figure 5E-G -----------------------###
 ## -------- Fig 5E- DPIT vs Water Column -----------###
-setwd("~/Desktop/Caron_lab_research/SCOPE/PARAGON-I/manuscript/analyses/analysed_data/")
+
 df_vol <- read.csv("deseq_dpit_vs_water_kegg_custom.csv")
 
 #set factor
