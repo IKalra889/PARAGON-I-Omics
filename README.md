@@ -4,6 +4,6 @@ Code associated with metaT + 18S rRNA analyses of sinking particles collected du
 
 The goal of the study was to evaluate changes in protistan community diversity and metabolism on sinking particulate matter following a summer diatom bloom in the NPSG.
 
-Sinking particles were collected in two types of 24-hour sediment traps - Daily PITs and NetTraps - enabling high-resolution of analyses of the microbial community metabolism.
+Sinking particles were collected in two types of 24-hour sediment traps - Daily PITs and NetTraps - enabling high-resolution analyses of the microbial community metabolism.
 
-Temporal and depth-related trends in protistan community metabolism were evaluated and linked particulate organic carbon flux. 
+Temporal and depth-related trends in protistan community metabolism were described and linked particulate organic carbon flux. 
